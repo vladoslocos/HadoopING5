@@ -1,0 +1,30 @@
+// Code proposed by Vladimir Ignjatovic for the Hadoop MapReduce
+
+/* Map function, sort data from csv file, attributing a number for every data from a line */
+
+var csvData = ["elephant;pink","dog;red","cat;black"];
+var i = 0;
+
+var mappedData = csvData.map(function(mapper) {
+	i ++;
+	// Split every line by the ";" separator (well known and very used in csv file to separate cells in the project)
+  	var arrayOfData = csvData[i].split();
+  	// arrayOfData = ["elephant","pink"]; So "elephant" is associated to 0 and "pink" to 1
+
+  	return arrayOfData;
+
+});
+
+console.log(mappedData); //[{"elephant", "pink"}, {"dog", "red"}, {"cat", "black"}]
+
+/* Reduce function, in order to concatenate all the data by their key number (sorted by line) */
+var j=0;
+var reducedData = mappedData.reduce(function(reducer) {
+	j++;
+  	return reducer + mappedData[j] + ";"; // In order to keep csv format, in case if we want to export the data again
+
+});
+
+console.log(reducedData); // ["elephant;dog;cat","pink;red;black"];
+
+//End of functions
