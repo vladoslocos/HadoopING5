@@ -1,1 +1,75 @@
+/**
+ * @author Vladimir Ignjatovic
+ * @date 5/11/2017
+ * @name MapReducePivotInverse.java
+ * 
+ */
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class MapReducePivotInverse {
+
+	// Get CSV file from folder path
+	static String file = "C:/Users/Vladimir/Documents/Hadoop/donneesPivot.csv";
+	// Get CSV file from adaltas Server
+	static String fileServer = "testCSV/donneesPivot.csv";
+	static String row = "";
+	static String delimiterWord = ";";
+	static String[] test;
+
+	// New Hashmap
+	static HashMap<Integer, String> newmap = new HashMap<Integer, String>();
+	static String[] testMap = new String[6];
+	static String[] finalTab = new String[6];
+	static int j = 0;
+
+	public static void main(String[] args) {
+		int i = 0;
+		//Read the CSV and get all the data
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			@SuppressWarnings("unchecked")
+			ArrayList<String[]> tabMap = new ArrayList<>();
+			while ((row = br.readLine()) != null) {
+				
+				//put the data in the Hashmap
+				finalTab = map(i, row.toString());
+				i++;
+			}
+			
+			for (String values : finalTab) {
+
+				System.out.println(values);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// MAP
+	static String[] map(int key, String values) {
+		String[] tableauMap = row.split(delimiterWord);
+		finalTab = reduce(j, tableauMap);
+
+		return finalTab;
+
+	}
+
+	// REDUCE
+	static String[] reduce(int j, String[] tableauMap) {
+		for (String maps : tableauMap) {
+			if (testMap[j] != null) {
+				testMap[j] = testMap[j] + ';' + maps;
+			} else {
+				testMap[j] = maps;
+			}
+			j++;
+		}
+		j = 0;
+		return testMap;
+	}
+}
